@@ -1,0 +1,10 @@
+<h2 class="text-primary text-center">Todo List App</h2>
+<form class="form form-control form-control-lg" aria-label=".form-control-lg example" #taskform="ngForm"
+    (ngSubmit)="addTask(taskform)">
+    <div class="d-flex container justify-content-center">
+        <input class="w-50" type="text" placeholder="Enter your tasks here...">
+        <button class="btn btn-primary m-2">Add Task</button>
+    </div>
+</form>
+
+<app-taskbar></app-taskbar>

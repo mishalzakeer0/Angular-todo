@@ -1,0 +1,14 @@
+<div class="d-flex align-items-center justify-content-center bg-info flex-column" style="height: 100vh;">
+    <div class="p-5 m-5 border border-2 border-white rounded">
+        <h4 class="text-center">Login Here!</h4>
+        <div class="p-2 m-2 bg-info text-white shadow rounded-2 d-flex flex-column">
+            <form class="form" #loginForm="ngForm" (ngSubmit)="onLoginSubmit(loginForm)">
+                <input type="email" class="form-control mb-3" required ngModel placeholder="abc@gmail.com" name="email">
+                <input type="password" class="form-control" required ngModel placeholder="Password" name="password">
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
