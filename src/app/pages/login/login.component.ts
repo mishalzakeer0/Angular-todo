@@ -17,6 +17,6 @@ export class LoginComponent {
   }
   onLoginSubmit(loginForm: NgForm){
     console.log(loginForm);
-    this.router.navigate(["hom"])
+    this.router.navigate(["home"])
   }
 }
