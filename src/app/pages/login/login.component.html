@@ -1,14 +1,30 @@
-<div class="d-flex align-items-center justify-content-center bg-info flex-column" style="height: 100vh;">
-    <div class="p-5 m-5 border border-2 border-white rounded">
-        <h4 class="text-center">Login Here!</h4>
-        <div class="p-2 m-2 bg-info text-white shadow rounded-2 d-flex flex-column">
-            <form class="form" #loginForm="ngForm" (ngSubmit)="onLoginSubmit(loginForm)">
-                <input type="email" class="form-control mb-3" required ngModel placeholder="abc@gmail.com" name="email">
-                <input type="password" class="form-control" required ngModel placeholder="Password" name="password">
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </div>
-            </form>
-        </div>
+<div class="d-flex align-items-center justify-content-center bg-dark flex-column " style="height: 100vh;">
+    <div class="container">
+      <h2 class="Myfont-h2 text-center text-primary">Timzy</h2>
     </div>
-</div>
+    <div class="p-5 m-5 w-75 border border-2 border-primary rounded bg-light shadow rounded-2">
+      <div class="p-2 m-2 bg-light text-white d-flex flex-column">
+        <div class="container d-flex justify-content-between">
+          <h4 class="text-primary pb-2">{{ isSignUp() ? 'Sign Up!' : 'Login Here!' }}</h4>
+          <small class="text-primary" (click)="toggleSignUp()"> or <a class="link">{{isSignUp() ? 'already have an account' : 'register here'}}</a></small>
+        </div>
+        <form class="form" [formGroup]="formController" (ngSubmit)="isSignUp() ? onSignUpSubmit() : onLoginSubmit()">
+            <small *ngIf="formController.get('username').invalid && formController.get('username').touched" class="text-danger fw-bold">*username is a required field.</small>
+            <input *ngIf="isSignUp()" type="text" class="form-control mb-3" formControlName="username" placeholder="username">
+          <small *ngIf="formController.get('email').invalid && formController.get('email').touched" class="text-danger fw-bold">*email is a required field.</small>
+          <input type="email" class="form-control mb-3" formControlName="email" placeholder="abc@gmail.com">
+          <small *ngIf="formController.get('password').invalid && formController.get('password').touched" class="text-danger fw-bold">*password is a required field.</small>
+
+          <input type="password" class="form-control mb-3" formControlName="password" placeholder="Password">
+          <small *ngIf="formController.get('confirmPassword').invalid && formController.get('confirmPassword').touched" class="text-danger fw-bold">*confirmPassword is a required field.</small>
+            <small *ngIf="formController.errors?.['mismatch'] && formController.get('confirmPassword').dirty" class="text-danger fw-bold"> passwords doesnt match</small>
+          <input *ngIf="isSignUp()" type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+          <div class="text-center mt-3">
+            <button *ngIf="isSignUp()" [disabled]="formController.invalid" type="submit" class="btn btn-primary w-100">{{'Sign Up'}} </button>
+            <button *ngIf="!isSignUp()" type="submit" class="btn btn-primary w-100">{{'Login'}} </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

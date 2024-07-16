@@ -1,10 +1,8 @@
-<h2 class="text-primary text-center">Todo List App</h2>
-<form class="form form-control form-control-lg" aria-label=".form-control-lg example" #taskform="ngForm"
-    (ngSubmit)="addTask(taskform)">
-    <div class="d-flex container justify-content-center">
-        <input class="w-50" type="text" placeholder="Enter your tasks here...">
-        <button class="btn btn-primary m-2">Add Task</button>
-    </div>
-</form>
+<div class="vh-100">
+    <h2  class="text-primary text-center justify-between bg-success p-2 m-0"> Timzy</h2>
+<div class="container-fluid bg-dark text-light d-flex p-0 " style="height: 94.5%;">
+    <app-sidebar class="sidebar"/>
+    <app-body #bodyDiv class="body bg-dark"/>
+</div>
 
-<app-taskbar></app-taskbar>
+</div>
