@@ -9,13 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  days: string [] = [
-    'M',
-    'T',
-    'W',
-    'T',
-    'F',
-    'S',
-    'S'
-  ]
+ 
 }

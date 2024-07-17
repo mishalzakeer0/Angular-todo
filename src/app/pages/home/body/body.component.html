@@ -1,31 +1,68 @@
 <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>Priority</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Study</td>
-        <td>Complete Angular Tutorial</td>
-        <td>
-          <select class="bg-dark">
-            <option value="pending">Pending</option>
-            <option value="in_progress">In-Progress</option>
-            <option value="completed">Completed</option>
-          </select>
-        </td>
-        <td>
-          <select class="bg-dark ">
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let todo of todoList;">
+      <td *ngIf="!isEditing[todo.id]">
+        <span (dblclick)="startEditing(todo.id)">{{ todo.title }}</span>
+      </td>
+      <td *ngIf="isEditing[todo.id]">
+        <input type="text" [(ngModel)]="todo.title" >
+      </td>
+      <td *ngIf="!isEditing[todo.id]">
+        <span (dblclick)="startEditing(todo.id)">{{ todo.description }}</span>
+      </td>
+      <td *ngIf="isEditing[todo.id]">
+        <input type="text" [(ngModel)]="todo.description" >
+      </td>
+      <td>
+        <select class="bg-dark" [(ngModel)]="todo.status" (change)="updateTask(todo)">
+          <option value="pending">Pending</option>
+          <option value="in-progress">In-Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </td>
+      <td>
+        <select class="bg-dark" [(ngModel)]="todo.priority" (change)="updateTask(todo)">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </td>
+      
+      <td>
+        <button class="btn btn-danger" (click)="deleteTask(todo.id)">Delete</button>
+        <button *ngIf="isEditing[todo.id]" class="btn btn-primary" (click)="updateTask(todo)">Save</button>
+      </td>
+    </tr>
+
+    <tr>
+      <td><input type="text" [(ngModel)]="newTask.title" placeholder="Title"></td>
+      <td><input type="text" [(ngModel)]="newTask.description" placeholder="Description"></td>
+      <td>
+        <select class="bg-dark" [(ngModel)]="newTask.status">
+          <option value="pending">Pending</option>
+          <option value="in-progress">In-Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+      </td>
+      <td>
+        <select class="bg-dark" [(ngModel)]="newTask.priority">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </td>
+      <td>
+        <button class="btn btn-warning" (click)="addTask(newTask)">Add Task</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

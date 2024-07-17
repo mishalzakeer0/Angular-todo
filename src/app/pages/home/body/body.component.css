@@ -11,9 +11,7 @@ table {
     color: #dddddd;
   }
   
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
+  
   select {
     font-size: 16px;
     border: none;

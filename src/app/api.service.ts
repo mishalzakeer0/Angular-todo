@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../environment/environment.dev';
@@ -8,12 +8,12 @@ import { environment } from '../environment/environment.dev';
 })
 export class TaskService {
   private baseUrl = environment.baseUrl
-  private apiUrl = `${this.baseUrl}/tasks`; // Replace with your API endpoint
+  private apiUrl = `${this.baseUrl}`; 
 
   constructor(private http: HttpClient) {}
 
   userLogin(credentials: { email: string; password: string }): Observable<any> {
-    const loginUrl = `${this.baseUrl}/login`; // Replace with your login API endpoint
+    const loginUrl = `${this.baseUrl}/login`; 
     return this.http
       .post<any>(loginUrl, credentials,)
       .pipe(catchError(this.handleError<any>('userLogin')));
@@ -24,37 +24,40 @@ export class TaskService {
     password: string;
     confirmPassword: string;
   }): Observable<any> {
-    const signUpUrl = `${this.baseUrl}/signup`; // Replace with your login API endpoint
+    const signUpUrl = `${this.baseUrl}/signup`; 
     return this.http
       .post<any>(signUpUrl, credentials)
       .pipe(catchError(this.handleError<any>('userLogin')));
   }
   getTasks(credentials: { user_id: string }): Observable<any> {
-    const getTaskUrl = `${this.baseUrl}/tasks`; // Replace with your login API endpoint
+    const getTaskUrl = `${this.baseUrl}/tasks`;
+    const params = new HttpParams().set('user_id', credentials.user_id);
 
-    return this.http
-      .post<any>(getTaskUrl, credentials)
-      .pipe(catchError(this.handleError<any>('getTasks')));
+    return this.http.get<any>(getTaskUrl, { params }).pipe(
+      catchError(this.handleError<any>('getTasks'))
+    );
   }
   updateTask(task: any): Observable<any> {
+    const getUpdateUrl = `${this.baseUrl}/updateTask`;
     return this.http
-      .put(this.apiUrl, task, this.httpOptions)
+      .put(getUpdateUrl, task, this.httpOptions)
       .pipe(catchError(this.handleError<any>('updateTask')));
   }
 
   addTask(task: any): Observable<any> {
+    const getAddUrl = `${this.baseUrl}/createTask`;
     return this.http
-      .post<any>(this.apiUrl, task, this.httpOptions)
+      .post<any>(getAddUrl, task, this.httpOptions)
       .pipe(catchError(this.handleError<any>('addTask')));
   }
 
   deleteTask(id: number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
+    const url = `${this.apiUrl}/deleteTask?id=${id}`; // Include the ID in the URL
     return this.http
-      .delete<any>(url, this.httpOptions)
+      .delete<any>(url)
       .pipe(catchError(this.handleError<any>('deleteTask')));
   }
-
+  
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
