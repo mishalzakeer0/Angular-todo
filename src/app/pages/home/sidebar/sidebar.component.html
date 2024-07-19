@@ -1,3 +1,10 @@
-<div class="d-flex flex-column justify-content-around text-center" style="height: 100%;">
-    
+<div class="d-flex flex-column justify-content-between text-center" style="height: 100%;">
+    <img src="https://imgs.search.brave.com/oZ2xKq_xOiIew6Q8L7Z36lJLUgglSZqwEKX5cKJY4Qc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/ZHJpYmJibGUuY29t/L3VzZXJzLzM4MjI3/Mjkvc2NyZWVuc2hv/dHMvNjg1MTI0OS9j/bG9ja18xeC5qcGc_/cmVzaXplPTQwMHgw"
+        alt="logo.png">
+    <div class="expandable" [class.expanded]="isExpanded" (click)="toggleExpand()">
+        <span class="material-symbols-outlined">settings</span>
+        <span *ngIf="isExpanded" class="material-symbols-outlined logout" (click)="onLogout($event)">logout</span>
+    </div>
+
+
 </div>

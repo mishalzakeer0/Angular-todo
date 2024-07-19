@@ -1,6 +1,41 @@
 .maname-regular {
-    font-family: "Maname", serif;
-    font-weight: 400;
-    font-style: normal;
-  }
-  
+  font-family: "Maname", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.material-symbols-outlined-settings {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.expandable {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(0, 0, 0);
+  overflow: hidden;
+  transition: height 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.expandable .logout {
+  display: none;
+  margin: 0;
+  padding-top: 10px;
+}
+
+.expandable.expanded {
+  height: 100px;
+}
+
+.expandable.expanded .logout {
+  display: block;
+}
+
+.material-symbols-outlined {
+  font-size: 24px;
+}

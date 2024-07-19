@@ -14,11 +14,21 @@ export class Session {
 
   isAuthenticated(): boolean {
     const token = this.cookieService.get('token');
-    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
-    return expiry * 1000 > Date.now();
-    // return !this.jwtHelper.isTokenExpired(token);
-    // droped JwtHelperService method since due injection error
+    if (!token) {
+      console.log("token not found")
+      return false;
+    }
+  
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp;
+      return expiry * 1000 > Date.now();
+    } catch (e) {
+      console.error('Failed to decode token:', e);
+      return false;
+    }
   }
+  
 
   logout() {
     this.cookieService.delete('token');

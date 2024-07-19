@@ -41,19 +41,9 @@ export class LoginComponent {
 
       this.taskService.userLogin(credentials).subscribe({
         next: (response) => {
-          console.log('Login successful', response);
-          // Handle successful login (e.g., store tokens, redirect, etc.)
+          // console.log('Response', response);
           if (response) {
-            console.log(response, "response")
-            {
-              // Set a cookie
-              this.cookieService.set("userId", response.validUser.id);
-              this.cookieService.set("username", response.validUser.username);
-              this.cookieService.set("email", response.validUser.email);
-              this.cookieService.set("token", response.token);
-            }
-            // const token = this.cookieService.get('token');
-            // console.log(this.jwtHelper.isTokenExpired(token) ,"isexpired")
+            console.log(response, "login Successfull")
             this.router.navigate(['home']);
             
           }
