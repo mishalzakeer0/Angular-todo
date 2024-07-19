@@ -3,12 +3,14 @@ import { CookieService } from 'ngx-cookie-service';
 import { TaskService } from '../../../api.service';
 import {
   FormBuilder,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { response } from 'express';
+import { NewTask, TodoList } from '../../../model/types';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from '../../../token.interceptor';
+
 
 @Component({
   selector: 'app-body',
@@ -16,26 +18,12 @@ import { response } from 'express';
   imports: [ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './body.component.html',
   styleUrls: ['./body.component.css'],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
 })
 export class BodyComponent implements OnInit {
-  todoList: {
-    id: number;
-    user_id: number;
-    title: string;
-    description: string;
-    status: string;
-    priority: string;
-  }[] = [];
+  todoList: TodoList[] = [];
   isEditing: { [key: number]: boolean } = {};
-  newTask: {
-    
-    user_id: string;
-    title: string ;
-    description: string;
-    status: string;
-    priority: string;
-  } = {
+  newTask: NewTask = {
     
     user_id: this.cookieService.get('userId'),
     title: '',
@@ -121,8 +109,7 @@ export class BodyComponent implements OnInit {
     });
   }
 
-  addTask(data): void {
-    console.log(data,"!@#$%^&*()_")
+  addTask(data: NewTask): void {
     this.taskService.addTask(data).subscribe({
       next: (response) => {
         console.log('response', response);

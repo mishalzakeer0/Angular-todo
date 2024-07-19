@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../api.service';
 import { CookieService } from 'ngx-cookie-service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 
@@ -21,7 +22,7 @@ export class LoginComponent {
   formController: FormGroup;
   signUpMode: boolean = false;
   
-  constructor(private fb: FormBuilder, private router: Router, private taskService: TaskService, private cookieService: CookieService) {
+  constructor(private fb: FormBuilder, private router: Router, private taskService: TaskService, private cookieService: CookieService,  ) {
     this.formController = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -43,7 +44,7 @@ export class LoginComponent {
           console.log('Login successful', response);
           // Handle successful login (e.g., store tokens, redirect, etc.)
           if (response) {
-            this.router.navigate(['home']);
+            console.log(response, "response")
             {
               // Set a cookie
               this.cookieService.set("userId", response.validUser.id);
@@ -51,6 +52,10 @@ export class LoginComponent {
               this.cookieService.set("email", response.validUser.email);
               this.cookieService.set("token", response.token);
             }
+            // const token = this.cookieService.get('token');
+            // console.log(this.jwtHelper.isTokenExpired(token) ,"isexpired")
+            this.router.navigate(['home']);
+            
           }
         },
         error: (error) => {
