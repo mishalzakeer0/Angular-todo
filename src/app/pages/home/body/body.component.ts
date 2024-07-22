@@ -11,7 +11,6 @@ import { NewTask, TodoList } from '../../../model/types';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../../../token.interceptor';
 
-
 @Component({
   selector: 'app-body',
   standalone: true,
@@ -24,13 +23,13 @@ export class BodyComponent implements OnInit {
   todoList: TodoList[] = [];
   isEditing: { [key: number]: boolean } = {};
   newTask: NewTask = {
-    
     user_id: this.cookieService.get('userId'),
     title: '',
     description: '',
     status: 'pending',
     priority: 'Low'
   }
+
   constructor(
     private cookieService: CookieService,
     private taskService: TaskService,
@@ -57,7 +56,7 @@ export class BodyComponent implements OnInit {
           }
         },
         error: (error) => {
-          console.log('Task retrieval failed', error); // Handle task retrieval error
+          console.log('Task retrieval failed', error);
         },
       });
     } else {
@@ -89,36 +88,55 @@ export class BodyComponent implements OnInit {
       },
       error: (error) => {
         console.log('Task updation failed', error);
-        // Handle task retrieval error
       },
     });
     this.stopEditing(data.id);
   }
 
   deleteTask(id: number): void {
+    const originalTasks = [...this.todoList];
+    this.todoList = this.todoList.filter(task => task.id !== id);
+
     this.taskService.deleteTask(id).subscribe({
       next: (response) => {
         console.log('delete details', response);
-        if (response) {
-          console.log(response);
-        }
       },
       error: (error) => {
-        console.log('Task updation failed', error);
+        console.log('Task deletion failed', error);
+        
+        this.todoList = originalTasks;
       },
     });
   }
 
   addTask(data: NewTask): void {
+    
+    const tempTask: TodoList = { 
+      id: Date.now(), 
+      user_id: Number(data.user_id),
+      title: data.title,
+      description: data.description,
+      status: data.status,
+      priority: data.priority
+    };
+
+    this.todoList.push(tempTask);
+
     this.taskService.addTask(data).subscribe({
       next: (response) => {
         console.log('response', response);
         if (response) {
           console.log(response, 'data added');
+          
+          this.todoList = this.todoList.map(task =>
+            task.id === tempTask.id ? response.message : task
+          );
         }
       },
       error: (error) => {
         console.log('Task insertion failed', error);
+        
+        this.todoList = this.todoList.filter(task => task.id !== tempTask.id);
       },
     });
   }
